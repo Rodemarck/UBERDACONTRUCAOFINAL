@@ -167,7 +167,7 @@ public class CadastroController implements Initializable {
         this.troca(0);
     }
     private void chamaAlert(String aviso,boolean check){
-        Alert alert = new Alert(AlertType.WARNING);
+        Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("falha no prcesso de cadastro");
         if(check)
             alert.setHeaderText("Campos obrigatorios em branco");

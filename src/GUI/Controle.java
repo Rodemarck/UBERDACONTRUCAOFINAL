@@ -117,4 +117,7 @@ public class Controle {
     public Trabalho getTrabalho(Conta conta){
         return this.bancoDeMemoria.getTrabalho(conta);
     }
+    /*public void criaTrabalho(){
+        this.bancoDeMemoria.cadastrar(this);
+    }*/
 }

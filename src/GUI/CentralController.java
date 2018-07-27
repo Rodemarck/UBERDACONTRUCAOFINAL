@@ -167,8 +167,11 @@ public class CentralController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("deseja alterar esses dados?");
             Optional<ButtonType> escolha= alert.showAndWait();
-            if(escolha.get() == ButtonType.OK)
+            if(escolha.get() == ButtonType.OK){
                 this.atualiza();
+                this.gui.terceiraTelaFecha();
+                this.gui.segundaTelaFecha();
+            }
             else
                 this.gui.terceiraTelaFecha();
         }
@@ -235,7 +238,9 @@ public class CentralController implements Initializable {
             return "???";  
         return +d.getDayOfMonth()+" / "+d.getMonthValue()+" / "+d.getYear();
     }
-    
+    @FXML    private void criaTrabalho(){
+        
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     

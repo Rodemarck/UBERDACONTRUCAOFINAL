@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
@@ -10,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="700.0" snapToPixel="false" style="-fx-background-color: #D8D7D8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CentralController">
    <children>
-      <AnchorPane fx:id="anpaneTrabalhoLista" prefHeight="400.0" prefWidth="700.0" visible="false">
+      <AnchorPane fx:id="anpaneTrabalhoLista" prefHeight="400.0" prefWidth="700.0">
          <children>
             <JFXListView layoutY="109.0" prefHeight="291.0" prefWidth="600.0" />
             <JFXButton layoutX="43.0" layoutY="65.0" text="novo trabalho" />
@@ -59,6 +60,45 @@
             <Label layoutX="317.0" layoutY="130.0" text="descrição" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anpaneTrabalhoNovo" prefHeight="400.0" prefWidth="700.0" />
+      <AnchorPane fx:id="anpaneTrabalhoNovo" prefHeight="400.0" prefWidth="700.0" visible="false">
+          <children>
+            <Label layoutX="313.0" layoutY="47.0" text="data de inicio:" />
+            <Label layoutX="500.0" layoutY="47.0" text="data de conclusão:" />
+            <AnchorPane layoutX="24.0" layoutY="156.0" prefHeight="230.0" prefWidth="227.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fitHeight="133.0" fitWidth="205.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imagensUsuario/usuarioComum.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="14.0" layoutY="144.0" text="nome:" />
+                  <Label fx:id="lblTrabalhoNomeCliente" layoutX="60.0" layoutY="144.0" text="Label" />
+               </children>
+            </AnchorPane>
+            <Label layoutX="88.0" layoutY="9.0" text="trabalho:" />
+            <Label layoutX="41.0" layoutY="47.0" text="situação:" />
+            <Label layoutX="119.0" layoutY="130.0" text="cliente" />
+            <Label layoutX="519.0" layoutY="130.0" text="funcionário" />
+            <AnchorPane layoutX="435.0" layoutY="156.0" prefHeight="230.0" prefWidth="227.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fitHeight="133.0" fitWidth="205.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imagensUsuario/usuarioComum.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="14.0" layoutY="144.0" text="nome:" />
+                  <Label layoutX="11.0" layoutY="183.0" text="especialidade:" />
+                  <Label fx:id="lblTrabalhoNomeFuncionario" layoutX="60.0" layoutY="144.0" text="Label" />
+                  <Label fx:id="lblTrabalhoEspecialidadeFuncionario" layoutX="100.0" layoutY="183.0" text="Label" />
+               </children>
+            </AnchorPane>
+            <Label fx:id="lblTrabalho" layoutX="161.0" layoutY="9.0" text="Label" />
+            <Label fx:id="lblTrabalhoInicio" layoutX="401.0" layoutY="47.0" text="Label" />
+            <Label fx:id="lblTrabalahoFim" layoutX="608.0" layoutY="47.0" text="Label" />
+            <Label fx:id="lblTrabalhoSituacao" layoutX="98.0" layoutY="47.0" text="Label" />
+            <Label layoutX="317.0" layoutY="130.0" text="descrição" />
+            <JFXTextArea fx:id="txtaTrabalhoDescricao" editable="false" layoutX="262.0" layoutY="156.0" prefHeight="185.0" prefWidth="160.0" />
+         </children>
+       </AnchorPane>
    </children>
 </AnchorPane>
