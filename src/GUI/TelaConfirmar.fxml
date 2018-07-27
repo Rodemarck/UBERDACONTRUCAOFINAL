@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="350.0" snapToPixel="false" style="-fx-background-color: #D8D7D8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CentralController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="350.0">
+         <children>
+            <Label layoutX="117.0" layoutY="14.0" text="confirmação de senha" />
+            <JFXPasswordField fx:id="pswfTelaConfirmarSenhaSenha" layoutX="14.0" layoutY="61.0" />
+            <JFXPasswordField fx:id="pswfTelaConfirmarSenhaConfirma" layoutX="14.0" layoutY="118.0" />
+            <JFXButton layoutX="234.0" layoutY="131.0" onAction="#alertaConfirmacaoPerfil" text="confirmar" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

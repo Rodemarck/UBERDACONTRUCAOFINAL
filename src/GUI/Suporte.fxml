@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="700.0" snapToPixel="false" style="-fx-background-color: #D8D7D8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CentralController">
+   <children>
+      <Label layoutX="66.0" layoutY="26.0" text="indisponivel" />
+      <JFXButton layoutX="510.0" layoutY="14.0" onAction="#sair" text=" ">
+         <graphic>
+            <ImageView fitHeight="57.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@imagensBotao/fechar.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXTextField layoutX="105.0" layoutY="104.0" prefHeight="25.0" prefWidth="200.0" promptText="informe sua duvida" />
+      <JFXTextArea layoutX="46.0" layoutY="171.0" prefHeight="133.0" prefWidth="464.0" promptText="descreva sua duvida" />
+      <JFXButton layoutX="445.0" layoutY="342.0" text="enviar" />
+   </children>
+</AnchorPane>

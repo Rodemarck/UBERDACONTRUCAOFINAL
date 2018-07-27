@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #D8D7D8;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CentralController">
+   <children>
+      <AnchorPane fx:id="anpaneControle" prefHeight="400.0" prefWidth="700.0">
+         <children>
+            <AnchorPane fx:id="anpaneCliente" prefHeight="400.0" prefWidth="700.0">
+               <children>
+                  <JFXButton layoutX="351.0" layoutY="239.0" onAction="#historico" text="historico" />
+                  <JFXButton layoutX="212.0" layoutY="239.0" onAction="#meusTravalhos" text="meus trabalhos" />
+                  <JFXButton layoutX="4.0" layoutY="327.0" onAction="#profile" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="45.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@imagensBotao/configuracaoo.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></JFXButton>
+                  <Label layoutX="273.0" layoutY="28.0" text="Uber da construção" />
+                  <JFXButton layoutX="475.0" layoutY="102.0" onAction="#notification" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="49.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@imagensBotao/notificationON.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="548.0" layoutY="18.0" onAction="#desloga" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="47.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@imagensBotao/fechar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton layoutX="475.0" layoutY="239.0" onAction="#suporte" text="suporte" />
+               </children>
+            </AnchorPane>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
