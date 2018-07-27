@@ -23,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
@@ -52,6 +53,7 @@ public class CentralController implements Initializable {
     @FXML    private Label lblTrabalhoInicio;
     @FXML    private Label lblTrabalahoFim;
     @FXML    private Label lblTrabalhoSituacao;
+    @FXML    private TextArea txtaTrabalhoDescricao;
     ////////////////////
     
     
@@ -59,6 +61,7 @@ public class CentralController implements Initializable {
     ///////////////////////////
     @FXML    private AnchorPane anpaneTrabalhoLista;
     @FXML    private AnchorPane anpaneTrabalhoNovo;
+    @FXML    private AnchorPane anpaneTrabalhoExistente;
     ////////////////////
     
     
@@ -208,13 +211,31 @@ public class CentralController implements Initializable {
     @FXML    private void abreTelaTrabalho(){
         Trabalho t = this.listaTrabalho.getSelectionModel().getSelectedItem();
         if(t != null){
-            LocalDate inicio = t.getInicioDasObras();
-            this.lblTrabalahoFim.setText("");
+            LocalDate d = t.getFimDasObras();
+            this.lblTrabalahoFim.setText(this.data(d));
+            this.lblTrabalho.setText(t.getEspecialidade());
+            d = t.getInicioDasObras();
+            this.lblTrabalhoInicio.setText(this.data(d));
+            this.lblTrabalhoEspecialidadeFuncionario.setText(t.getEmpregado().getEspecialidade());
+            this.lblTrabalhoNomeFuncionario.setText(t.getEmpregado().getDadosPessoais().getLogin());
+            this.lblTrabalhoNomeCliente.setText(t.getEmpregador().getDadosPessoais().getLogin());
+            this.txtaTrabalhoDescricao.setText(t.getDescricao());
+            if(t.isAtivo())
+                this.lblTrabalhoSituacao.setText("em operação");
+            else
+                this.lblTrabalhoSituacao.setText("fora de operação");
+            this.anpaneTrabalhoLista.setVisible(false);
+            this.anpaneTrabalhoExistente.setVisible(true);
         }
+        else
+            System.out.println("exception");
     }
-    /*private Strintg data(LocalDate d){
-        return d.getDayOfMonth()+" / "+d.get
-    }*/
+    private String data(LocalDate d){
+        if(d==null)
+            return "???";  
+        return +d.getDayOfMonth()+" / "+d.getMonthValue()+" / "+d.getYear();
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
