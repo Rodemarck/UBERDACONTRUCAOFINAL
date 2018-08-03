@@ -6,10 +6,13 @@
 package GUI;
 
 import Contas.Conta;
+import Contas.ContaCliente;
 import Contas.Pessoa;
 import Trabalho.Trabalho;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.time.LocalDate;
@@ -39,13 +42,15 @@ public class CentralController implements Initializable {
     ////////////////////
         
     ///////////////////////////
-    private ObservableList<Trabalho> trabalho;
     @FXML    private JFXListView<Trabalho> listaTrabalho;
+    @FXML    private JFXListView<Conta> listaConta;
     ////////////////////
     
     
     
     ///////////////////////////
+    @FXML    private AnchorPane anpaneTrabalhoLista;
+    @FXML    private AnchorPane anpaneTrabalhoExistente;
     @FXML    private Label lblTrabalhoNomeCliente;
     @FXML    private Label lblTrabalhoNomeFuncionario;
     @FXML    private Label lblTrabalhoEspecialidadeFuncionario;
@@ -53,15 +58,14 @@ public class CentralController implements Initializable {
     @FXML    private Label lblTrabalhoInicio;
     @FXML    private Label lblTrabalahoFim;
     @FXML    private Label lblTrabalhoSituacao;
-    @FXML    private TextArea txtaTrabalhoDescricao;
+    @FXML    private JFXTextArea txtaTrabalhoDescricao;
     ////////////////////
     
     
     
     ///////////////////////////
-    @FXML    private AnchorPane anpaneTrabalhoLista;
-    @FXML    private AnchorPane anpaneTrabalhoNovo;
-    @FXML    private AnchorPane anpaneTrabalhoExistente;
+    @FXML    private JFXComboBox<String> cbTealaNovoTrabalhoEpecialidade;
+    @FXML    private TextArea txtaTrabalhoNovo;
     ////////////////////
     
     
@@ -75,7 +79,7 @@ public class CentralController implements Initializable {
     private String LOCALNovoLogin="";
     private String LOCALSenha="";
     private String LOCALConfirmaSenha="";
-    
+    int uso;
     Controle controle = new Controle();
     GUI gui = new GUI();
     /**
@@ -102,7 +106,7 @@ public class CentralController implements Initializable {
     @FXML    private void suporte(){
         this.gui.segundaTelaAbre(4);
     }
-     @FXML    private void profile(){
+    @FXML    private void profile(){
         this.gui.segundaTelaAbre(6);
     }    
     @FXML    private void sair(){
@@ -111,14 +115,45 @@ public class CentralController implements Initializable {
     @FXML    private void fechar(){
         this.gui.terceiraTelaFecha();
     }
+    private void checarSenha(int i){
+        this.uso=i;
+        this.gui.terceiraTelaFecha();
+        this.gui.terceiraTelaAbre(7);
+        
+    }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
     @FXML    public void alterar(){
         this.LOCALNovoEmail = this.txtfProfileEmail.getText();
         this.LOCALNovoLogin = this.txtfProfileLogin.getText();
+        this.checarSenha(1);
         this.gui.terceiraTelaAbre(7);
     }
     
@@ -160,7 +195,17 @@ public class CentralController implements Initializable {
                 LOCALNovoEmail.indexOf("@")<3) && this.controle.checarEmail(LOCALNovoEmail));
     }
     
-    @FXML   private void alertaConfirmacaoPerfil(){
+    @FXML   private void confirmarSenha(){
+        switch(uso){
+            case 1:
+                this.alertaConfirmacaoPerfil();
+                break;
+            case 2:
+                this.alertaCriaTrabalho();
+                break;
+        }
+    }
+    @FXML    private void alertaConfirmacaoPerfil(){
         if(this.checaSenha()){
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("confirmação");
@@ -193,6 +238,16 @@ public class CentralController implements Initializable {
      
      
      
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -200,16 +255,11 @@ public class CentralController implements Initializable {
      
      
     private void scriptHistorico(){
-        this.trabalho = FXCollections.observableArrayList(controle.getRepositrorioTrabalhos());
+        ObservableList<Trabalho> trabalho = FXCollections.observableArrayList(controle.getTodosTrabalhos());
         this.listaTrabalho.setItems(trabalho);
     }
     private void scriptTelaTrabalho(){
-        if(this.controle.verificarDisponibilidade()){
-            
-        }
-        else{
-            
-        }
+       
     }
     @FXML    private void abreTelaTrabalho(){
         Trabalho t = this.listaTrabalho.getSelectionModel().getSelectedItem();
@@ -233,22 +283,113 @@ public class CentralController implements Initializable {
         else
             System.out.println("exception");
     }
+    
     private String data(LocalDate d){
         if(d==null)
             return "???";  
         return +d.getDayOfMonth()+" / "+d.getMonthValue()+" / "+d.getYear();
     }
-    @FXML    private void criaTrabalho(){
-        
+    
+    @FXML   private void alertaCriaTrabalho(){
+        if(this.checaSenha()){
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("confirmação");
+            alert.setHeaderText(null);
+            alert.setContentText("deseja criar esse trabalho?");
+            Optional<ButtonType> escolha= alert.showAndWait();
+            if(escolha.get() == ButtonType.OK)
+                if(this.criaTrabalho()){
+                    this.alertaCriaTrabalhoErro(1);
+                    
+                }
+            this.gui.terceiraTelaFecha();
+            this.gui.segundaTelaFecha();
+        }
+         else
+            this.alertaCriaTrabalhoErro(0);
     }
+    
+     private void alertaCriaTrabalhoErro(int i){
+        Alert alert = new Alert(AlertType.ERROR);
+        switch(i){
+            case 0: 
+                alert.setTitle("senha incorreta");
+                alert.setContentText("as senhas fornecidas não coincidem com o banco de dados");
+                break;
+            case 1:
+                alert.setTitle("falha ao criar");
+                alert.setContentText("o trabalho já está criado");
+                break;
+            case 2:
+                alert.setTitle("falha ao criar");
+                alert.setContentText("algum dos campos está em branco");
+                break;
+        }
+        
+        alert.setHeaderText(null);
+        alert.show();
+    }
+    @FXML    private void trabalho(){
+        this.checarSenha(2);
+    }
+    private boolean criaTrabalho(){
+       if(cbTealaNovoTrabalhoEpecialidade.getSelectionModel().getSelectedItem() != null){
+            this.checarSenha(3);
+            Trabalho t = new Trabalho((ContaCliente) this.controle.getUsuario(),txtaTrabalhoNovo.getText(),cbTealaNovoTrabalhoEpecialidade.getSelectionModel().getSelectedItem());
+            this.controle.criaTrabalho(t); 
+            return this.controle.criaTrabalho(t);
+        }
+       return false;
+    }   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+        
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void carregaCB(){
+          ObservableList<String> listaEspecialidades= FXCollections.observableArrayList(this.controle.getTodasEspecialidades());
+          cbTealaNovoTrabalhoEpecialidade.setItems(listaEspecialidades);
+    }
+    private void carregaConta(){
+        ObservableList<Conta> conta = FXCollections.observableArrayList(this.controle.getRepositorioContas());
+        this.listaConta.setItems(conta);
+    }
+    private void load(){
+        this.carregaCB();
+        this.carregaConta();
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        this.load();
     }    
     
 }

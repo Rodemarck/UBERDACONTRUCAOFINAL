@@ -80,7 +80,9 @@ public class Controle {
     public void deletarConta(Conta conta){
         this.bancoDeDados.deletarConta(conta);
     }
-    
+    public ArrayList<Conta> getRepositorioContas(){
+        return this.bancoDeDados.getRepositorioContas();
+    }
     
     
     
@@ -116,6 +118,9 @@ public class Controle {
     }
     public Trabalho getTrabalho(Conta conta){
         return this.bancoDeMemoria.getTrabalho(conta);
+    }
+    public boolean criaTrabalho(Trabalho novoTrabalho){
+        return false;
     }
     /*public void criaTrabalho(){
         this.bancoDeMemoria.cadastrar(this);

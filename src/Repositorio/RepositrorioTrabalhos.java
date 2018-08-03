@@ -66,10 +66,11 @@ public class RepositrorioTrabalhos implements IRepositrorioTrabalhos{
 				return false;
 		return true;
 	}
-        public void cadastrar(Trabalho novoTrabalho) {
-		if(novoTrabalho!=null) {
+        public boolean cadastrar(Trabalho novoTrabalho) {
+		if(novoTrabalho!=null && !trabalhos.contains(novoTrabalho)) {
 			this.trabalhos.add(novoTrabalho);
 		}
+                return false;
 	}
         
         public Trabalho getTrabalho(Conta conta){

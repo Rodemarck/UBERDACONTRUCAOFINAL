@@ -33,8 +33,11 @@ public class GUI extends Application {
     private boolean segundaTela=false;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        for(int x=0;x<3;x++)
+        for(int x=0;x<3;x++){
             tela.add(new Stage());
+            tela.get(x).setTitle("UBER DA CONSTRUCAO");
+            tela.get(x).setResizable(false);
+        }
         criaCena("Logon.fxml");
         criaCena("Cadastro.fxml");
         criaCena("Central.fxml");
@@ -43,9 +46,8 @@ public class GUI extends Application {
         criaCena("MeusTrabalhos.fxml");
         criaCena("Profile.fxml");
         criaCena("TelaConfirmar.fxml");
-        criaCena("TelaTrabalho.fxml");
-        criaCena("TelaTrabalhoNovo.fxml");
-        tela.get(0).setTitle("primeira");
+//        criaCena("TelaTrabalho.fxml");
+//        criaCena("TelaTrabalhoNovo.fxml");
         tela.get(0).setScene(cenas.get(0));
         tela.get(0).show();
     }

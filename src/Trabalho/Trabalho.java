@@ -38,12 +38,28 @@ public class Trabalho implements IRepositrorioTrabalhos{
 	public Trabalho(ContaCliente cliente,String obra, String especialidade) {
             if(cliente!= null && obra!= null & especialidade != null){
 		this.empregador= cliente;
-		this.empregado= null;
+		this.empregado=null;
 		this.obra= obra;
 		this.ativo= false;
                 this.especialidade=especialidade;
+                this.descricao="";
+                this.inicioDasObras= null;
+                this.fimDasObras=null;
             }
 	}
+        
+        public Trabalho(ContaFuncionarioCampo conta){
+            if(conta != null){
+                this.ativo=false;
+                this.descricao="";
+                this.empregado=conta;
+                this.empregador=null;
+                this.especialidade=conta.getEspecialidade();
+                this.fimDasObras=null;
+                this.inicioDasObras=null;
+                this.obra="";
+            }            
+        }
 
         public String getEspecialidade() {
             return especialidade;

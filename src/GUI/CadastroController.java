@@ -213,11 +213,14 @@ public class CadastroController implements Initializable {
         this.listasEspecialidade = FXCollections.observableArrayList(this.controle.getTodasEspecialidades());
         this.cbEpecialidade.setItems(listasEspecialidade);
     }
+    private void load(){
+        this.limparBuffer();
+        this.carregaCB();
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.limparBuffer();
-        this.carregaCB();
+        this.load();
     }    
     
 }
