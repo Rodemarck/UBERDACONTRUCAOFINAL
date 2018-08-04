@@ -8,14 +8,15 @@ package GUI;
 import Repositorio.Repositorio;
 import Repositorio.RepositorioContas;
 import Repositorio.RepositrorioTrabalhos;
-import Contas.Pessoa;
-import Contas.ContaCliente;
-import Contas.ContaFuncionario;
-import Contas.Conta;
-import Contas.ContaFuncionarioBurocratico;
-import Contas.ContaFuncionarioCampo;
-import Interfaces.IRepositorioContas;
-import Trabalho.Trabalho;
+import Conta.Pessoa;
+import Conta.ContaCliente;
+import Conta.ContaFuncionario;
+import Conta.Conta;
+import Conta.ContaFuncionarioBurocratico;
+import Conta.ContaFuncionarioCampo;
+import interfaces.IRepositorioContas;
+import Conta.Trabalho;
+import interfaces.IRepositorioTrabalhos;
 import java.util.ArrayList;
 
 
@@ -24,8 +25,8 @@ import java.util.ArrayList;
  * @author Rodemarck Jr
  */
 public class Controle {
-    private RepositorioContas bancoDeDados = new RepositorioContas();
-    private RepositrorioTrabalhos bancoDeMemoria = new RepositrorioTrabalhos();
+    private IRepositorioContas bancoDeDados = RepositorioContas.getInstance();
+    private IRepositorioTrabalhos bancoDeMemoria = RepositrorioTrabalhos.getInstance();
     
     
    
@@ -53,8 +54,8 @@ public class Controle {
     private void logar(String login){
         this.bancoDeDados.getContas(login);
     }
-    private Conta getConta(String login){
-        return this.bancoDeDados.getContas(login);
+    private void getConta(String login){
+        this.bancoDeDados.getContas(login);
     }
     private void logarPorEmail(String email){
         this.bancoDeDados.getContasPorEmail(email);
@@ -120,9 +121,9 @@ public class Controle {
         return this.bancoDeMemoria.getTrabalho(conta);
     }
     public boolean criaTrabalho(Trabalho novoTrabalho){
-        return false;
+        return this.bancoDeMemoria.cadastrar(novoTrabalho);
     }
-    /*public void criaTrabalho(){
-        this.bancoDeMemoria.cadastrar(this);
+    /*public void criaTrabalho(Trabalho t){
+        this.bancoDeMemoria.cadastrar(t);
     }*/
 }

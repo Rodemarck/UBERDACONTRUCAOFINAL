@@ -46,7 +46,7 @@ public class GUI extends Application {
         criaCena("MeusTrabalhos.fxml");
         criaCena("Profile.fxml");
         criaCena("TelaConfirmar.fxml");
-//        criaCena("TelaTrabalho.fxml");
+        criaCena("TelaNovoTrabalho.fxml");
 //        criaCena("TelaTrabalhoNovo.fxml");
         tela.get(0).setScene(cenas.get(0));
         tela.get(0).show();

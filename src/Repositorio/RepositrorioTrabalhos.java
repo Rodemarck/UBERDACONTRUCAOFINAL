@@ -6,21 +6,96 @@
 package Repositorio;
 
 import java.util.*;
-import Trabalho.Trabalho;
-import Interfaces.IRepositrorioTrabalhos;
-import Contas.Conta;
-import Contas.ContaCliente;
-import Contas.ContaFuncionario;
-import Contas.ContaFuncionarioBurocratico;
-import Contas.ContaFuncionarioCampo;
+import Conta.Trabalho;
+import interfaces.IRepositorioTrabalhos;
+import Conta.Conta;
+import Conta.ContaCliente;
+import Conta.ContaFuncionario;
+import Conta.ContaFuncionarioBurocratico;
+import Conta.ContaFuncionarioCampo;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  *
  * @author Rodemarck Jr
  */
-public class RepositrorioTrabalhos implements IRepositrorioTrabalhos{
+public class RepositrorioTrabalhos implements IRepositorioTrabalhos{
         private ArrayList<Trabalho> trabalhos = new ArrayList<Trabalho>();
+        private static IRepositorioTrabalhos instance;
         private ArrayList<String> especialidades = new ArrayList<String>();
+        
+        
+        
+        
+        private RepositrorioTrabalhos() {
+    }
+
+    public static IRepositorioTrabalhos getInstance() {
+        if (instance == null) {
+            instance = lerDoArquivo();
+        }
+
+        return instance;
+    }
+
+    private static RepositrorioTrabalhos lerDoArquivo() {
+        RepositrorioTrabalhos instanciaLocal = null;
+        File in = new File("trabalhos.dat");
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        try {
+            fis = new FileInputStream(in);
+            ois = new ObjectInputStream(fis);
+            Object o = ois.readObject();
+            instanciaLocal = (RepositrorioTrabalhos)o;
+        } catch (Exception var13) {
+            instanciaLocal = new RepositrorioTrabalhos();
+        } finally {
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException var12) {
+                    ;
+                }
+            }
+
+        }
+
+        return instanciaLocal;
+    }
+
+    public void salvarArquivo() {
+        if (instance != null) {
+            File out = new File("contas.dat");
+            FileOutputStream fos = null;
+            ObjectOutputStream oos = null;
+
+            try {
+                fos = new FileOutputStream(out);
+                oos = new ObjectOutputStream(fos);
+                oos.writeObject(instance);
+            } catch (Exception var13) {
+                var13.printStackTrace();
+            } finally {
+                if (oos != null) {
+                    try {
+                        oos.close();
+                    } catch (IOException var12) {
+                        ;
+                    }
+                }
+
+            }
+
+        }
+    }
+        
         
         
         
@@ -46,94 +121,6 @@ public class RepositrorioTrabalhos implements IRepositrorioTrabalhos{
                     todosTrabalhos.add(t);
             return todosTrabalhos;
         }
-        public boolean verificarDisponibilidade(Conta conta){
-            if(conta instanceof ContaCliente)
-                return verificarDisponibilidadeCliente((ContaCliente) conta);
-            return verificarDisponibilidadeFuncionario((ContaFuncionario) conta);
-        }
-	private boolean verificarDisponibilidadeCliente(ContaCliente cliente) {
-            if(cliente != null){
-                for(int i=0; i < this.trabalhos.size();i++)
-			if(this.trabalhos.get(i).getEmpregador().equals(cliente))
-				return false;
-		return true;
-            }
-            return true;
-	}
-	private boolean verificarDisponibilidadeFuncionario(ContaFuncionario funcionario) {
-		for(int i=0; i < this.trabalhos.size();i++)
-			if(this.trabalhos.get(i).getEmpregado().equals(funcionario))
-				return false;
-		return true;
-	}
-        public boolean cadastrar(Trabalho novoTrabalho) {
-		if(novoTrabalho!=null && !trabalhos.contains(novoTrabalho)) {
-			this.trabalhos.add(novoTrabalho);
-		}
-                return false;
-	}
-        
-        public Trabalho getTrabalho(Conta conta){
-            if(conta instanceof ContaCliente)
-                return this.getTrabalhoCliente(((ContaCliente)conta));
-            return this.getTrabalhoFuncionarioCampo((ContaFuncionarioCampo) conta);
-        }
-        public void deletar(Trabalho trabalho) {
-            if(trabalho!=null && this.trabalhos.contains(trabalho)){
-                this.trabalhos.remove(trabalho);
-            }
-	}
-        public void atualizarTrabalho(Trabalho trabalhoAntigo, Trabalho trabalhoNovo) {
-		if(trabalhoAntigo!=null && trabalhoNovo!=null && this.trabalhos.contains(trabalhoAntigo)) {
-                    int x;
-                    x=this.trabalhos.indexOf(trabalhoAntigo);
-                    this.trabalhos.get(x).setEmpregador(trabalhoNovo.getEmpregador());
-                    this.trabalhos.get(x).setEmpregado(trabalhoNovo.getEmpregado());
-                    this.trabalhos.get(x).setEspecialidade(trabalhoNovo.getEspecialidade());
-		}
-	}
-	private Trabalho getTrabalhoFuncionarioCampo(ContaFuncionarioCampo empregado) {
-		if(empregado!=null) {
-			for(int i=0;i<this.trabalhos.size();i++) {
-				if(this.trabalhos.get(i).getEmpregado().equals(empregado)) {
-					return this.trabalhos.get(i);
-				}
-			}	
-		}
-		return null;//exception
-	}	
-	private Trabalho getTrabalhoCliente(ContaCliente empregador) {
-		if(empregador!=null) {
-			for(int i=0;i<this.trabalhos.size();i++) {
-				if(this.trabalhos.get(i).getEmpregador().equals(empregador)) {
-					return this.trabalhos.get(i);
-				}
-			}	
-		}
-		return null;//exception
-	}	
-	public void terminarTrabalho(Trabalho trabalho) {
-            if(trabalho!=null && this.trabalhos.contains(trabalho)) {
-                int x=this.trabalhos.indexOf(trabalho);
-                this.trabalhos.get(x).setAtivo(false);
-                this.trabalhos.get(x).getEmpregado().setDisponibilidade(true);
-                this.trabalhos.get(x).getEmpregador().setDisponibilidade(true);
-            }
-        }
-        public boolean existeTrabalho(Trabalho trabalho) {
-		return (trabalho!=null && this.trabalhos.contains(trabalho));
-	}
-        @Override
-	public boolean demitirEmpregado() {
-		return false;
-	}
-        @Override
-	public boolean contratarEmpregado(ContaFuncionarioCampo contratado) {
-		return false;
-	}
-	public boolean solicitarTrabalho() {
-		return false;
-	}
         public ArrayList<String> getTodasEspecialidades(){
             if(this.especialidades.size()==0){
                 especialidades.add("pedreiro");
@@ -145,5 +132,135 @@ public class RepositrorioTrabalhos implements IRepositrorioTrabalhos{
             }
             return this.especialidades;
         }
+      public boolean cadastrar(Trabalho novoTrabalho) {
+        if (novoTrabalho != null && !this.existeTrabalho(novoTrabalho)) {
+            this.trabalhos.add(novoTrabalho);
+            return true;
+        }
+        return false;
+    }
+
+    public Trabalho procurarTrabalho(ContaCliente empregador) {
+        if (empregador != null) {
+            for(int i = 0; i < this.trabalhos.size(); ++i) {
+                if (((Trabalho)this.trabalhos.get(i)).getEmpregador().equals(empregador)) {
+                    return (Trabalho)this.trabalhos.get(i);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Trabalho[] listarTrabalhos(String especialidade) {
+        ArrayList<Trabalho> trabalhos = new ArrayList();
+
+        for(int i = 0; i < this.trabalhos.size(); ++i) {
+            if (((Trabalho)this.trabalhos.get(i)).getEspecialidade().equals(especialidade)) {
+                trabalhos.add((Trabalho)this.trabalhos.get(i));
+            }
+        }
+
+        Trabalho[] listaTrabalho = (Trabalho[])trabalhos.toArray(new Trabalho[trabalhos.size()]);
+        return listaTrabalho;
+    }
+
+    public Trabalho procurarTrabalho(ContaFuncionarioCampo empregado) {
+        if (empregado != null) {
+            for(int i = 0; i < this.trabalhos.size(); ++i) {
+                if (((Trabalho)this.trabalhos.get(i)).getEmpregado().equals(empregado)) {
+                    return (Trabalho)this.trabalhos.get(i);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public void deletar(Trabalho trabalho) {
+        if (trabalho != null && this.trabalhos.contains(trabalho)) {
+            this.trabalhos.remove(trabalho);
+        }
+
+    }
+
+    public void atualizarTrabalho(Trabalho trabalhoAntigo, Trabalho trabalhoNovo) {
+        if (trabalhoAntigo != null && trabalhoNovo != null && this.trabalhos.contains(trabalhoAntigo)) {
+            int x = this.trabalhos.indexOf(trabalhoAntigo);
+            ((Trabalho)this.trabalhos.get(x)).setEmpregador(trabalhoNovo.getEmpregador());
+            ((Trabalho)this.trabalhos.get(x)).setEmpregado(trabalhoNovo.getEmpregado());
+            ((Trabalho)this.trabalhos.get(x)).setEspecialidade(trabalhoNovo.getEspecialidade());
+        }
+
+    }
+
+    public boolean existeTrabalho(Trabalho trabalho) {
+        return trabalho != null && this.trabalhos.contains(trabalho);
+    }
+
+    public void encerrarTrabalho(Trabalho trabalho) {
+        if (this.trabalhos.contains(trabalho)) {
+            int x = this.trabalhos.indexOf(trabalho);
+            ((Trabalho)this.trabalhos.get(x)).setAtivo(false);
+            ((Trabalho)this.trabalhos.get(x)).getEmpregado().setDisponibilidade(true);
+        }
+
+    }
+
+    public void demitirEmpregado(ContaCliente conta) {
+        if (this.trabalhos.contains(this.procurarTrabalho(conta))) {
+            this.procurarTrabalho(conta).setEmpregado((ContaFuncionarioCampo)null);
+            this.procurarTrabalho(conta).setAtivo(false);
+        }
+
+    }
+
+    public void sairDoTrabalho(ContaFuncionarioCampo conta) {
+        if (!conta.isDisponibilidade()) {
+            conta.setDisponibilidade(true);
+            this.procurarTrabalho(conta).setAtivo(false);
+            this.procurarTrabalho(conta).setEmpregado((ContaFuncionarioCampo)null);
+        }
+
+    }
+
+    public ArrayList<Trabalho> trabalhosAtivos() {
+        ArrayList<Trabalho> trabalhos = new ArrayList();
+
+        for(int i = 0; i < this.trabalhos.size(); ++i) {
+            if (((Trabalho)this.trabalhos.get(i)).isAtivo()) {
+                trabalhos.add((Trabalho)this.trabalhos.get(i));
+            }
+        }
+
+        return trabalhos;
+    }
+
+    public ArrayList<Trabalho> trabalhosNaoAtivos() {
+        ArrayList<Trabalho> trabalhos = new ArrayList();
+
+        for(int i = 0; i < this.trabalhos.size(); ++i) {
+            if (!((Trabalho)this.trabalhos.get(i)).isAtivo()) {
+                trabalhos.add((Trabalho)this.trabalhos.get(i));
+            }
+        }
+
+        return trabalhos;
+    }
+
+    @Override
+    public ArrayList<Trabalho> trabalhosnaoAtivos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean verificarDisponibilidade(Conta usuario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Trabalho getTrabalho(Conta usuario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 

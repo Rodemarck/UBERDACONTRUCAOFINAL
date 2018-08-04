@@ -5,7 +5,8 @@
  */
 package GUI;
 
-import Contas.*;
+import Conta.Conta;
+import Conta.Pessoa;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXRadioButton;

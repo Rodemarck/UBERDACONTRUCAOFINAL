@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Trabalho;
+package Conta;
 
-import Contas.ContaCliente;
-import Contas.ContaFuncionarioCampo;
-import Interfaces.IRepositrorioTrabalhos;
+import Conta.ContaCliente;
+import Conta.ContaFuncionarioCampo;
+import interfaces.IRepositorioTrabalhos;
 import java.time.*;
 
 /**
  *
  * @author Rodemarck Jr
  */
-public class Trabalho implements IRepositrorioTrabalhos{
+public class Trabalho{
 	private LocalDate inicioDasObras;
 	private LocalDate fimDasObras;
 	private ContaCliente empregador;
@@ -101,7 +101,6 @@ public class Trabalho implements IRepositrorioTrabalhos{
 		}
 		return false;
 	}
-	@Override
 	public boolean contratarEmpregado(ContaFuncionarioCampo contratado) {
 		if(this.empregado==null) {
 			this.empregado= contratado;

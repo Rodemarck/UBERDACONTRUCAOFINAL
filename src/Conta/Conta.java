@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Contas;
+package Conta;
 
 import java.time.LocalDate;
 
@@ -24,12 +24,12 @@ public abstract class Conta {
 	public Conta(String email, String senha, String login, LocalDate dataDeCriacao, 
 		   LocalDate ultimaSessao, String numeroCartaoCredito) {
 		this.pessoa = new Pessoa(email, senha, login,numeroCartaoCredito);
-                this.getDadosPessoais().setDataDeCriacao(dataDeCriacao);
-                this.getDadosPessoais().setUltimaSessao(dataDeCriacao);
+                this.getDados().setDataDeCriacao(dataDeCriacao);
+                this.getDados().setUltimaSessao(dataDeCriacao);
 	}
 	
 	public boolean equals(Conta conta) {
-		return this.getDadosPessoais().equals(conta.getDadosPessoais()) &&
+		return this.getDados().equals(conta.getDados()) &&
                         this.getTipo().equals(conta.getTipo());
 	}
 	
@@ -38,11 +38,11 @@ public abstract class Conta {
 	}
 	
 	
-	public Pessoa getDadosPessoais() {
+	public Pessoa getDados() {
 		return this.pessoa;
 	}
 	 
-	public void setDadosPessoais(Pessoa dados) {
+	public void setDados(Pessoa dados) {
 		this.pessoa=dados;
 	}
         public String toString(){

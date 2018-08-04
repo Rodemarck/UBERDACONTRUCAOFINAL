@@ -1,23 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Interfaces;
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
 
-import Contas.Conta;
+package interfaces;
 
-/**
- *
- * @author Rodemarck Jr
- */
+import Conta.Conta;
+import Conta.Pessoa;
+import java.util.ArrayList;
+
 public interface IRepositorioContas {
-	public boolean login(String login,String senha);
-	public boolean checarLogin(String login);
-	public boolean checarEmail(String email);
-	public boolean checarSenha(String senha);
-	public boolean checarNumeroCartaoCredito(String numeroCartaoCredito);
-	public void cadastrarConta(Conta novaConta);
-	public Conta getContas(String  login);
-	public boolean atualizar(Conta usuario,String informacao,String novoDado);
+    void cadastrar(Conta var1);
+
+    Conta procurarConta(String var1);
+
+    void deletarConta(Conta var1);
+
+    void atualizarConta(Conta var1, Conta var2);
+
+    boolean existe(Conta var1);
+
+    public boolean checarLogin(String login);
+
+    public boolean checarEmail(String email);
+
+    public boolean checarNumeroCartaoCredito(String cartao);
+
+    public boolean login(String login, String senha);
+
+    public boolean loginPorEmail(String email, String senha);
+
+    public Conta getContas(String login);
+
+    public Conta getContasPorEmail(String email);
+
+    public void desloga();
+
+    public void cadastrarConta(Pessoa dados, String tipo, String especialidade);
+
+    public Conta getUsuario();
+
+    public void atualizar(Pessoa dados);
+
+    public void atualiar(Conta conta, Pessoa dados);
+
+    public boolean isLoagado();
+
+    public ArrayList<Conta> getRepositorioContas();
 }

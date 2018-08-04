@@ -5,10 +5,10 @@
  */
 package GUI;
 
-import Contas.Conta;
-import Contas.ContaCliente;
-import Contas.Pessoa;
-import Trabalho.Trabalho;
+import Conta.Conta;
+import Conta.ContaCliente;
+import Conta.Pessoa;
+import Conta.Trabalho;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXPasswordField;
@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -64,7 +65,7 @@ public class CentralController implements Initializable {
     
     
     ///////////////////////////
-    @FXML    private JFXComboBox<String> cbTealaNovoTrabalhoEpecialidade;
+    @FXML    private ComboBox<String> cbTealaNovoTrabalhoEpecialidade;
     @FXML    private TextArea txtaTrabalhoNovo;
     ////////////////////
     
@@ -161,7 +162,7 @@ public class CentralController implements Initializable {
         Conta conta;
         Conta novaConta;
         conta = this.controle.getUsuario();
-        Pessoa dados = conta.getDadosPessoais();
+        Pessoa dados = conta.getDados();
         if(this.LOCALNovoEmail.length()!=0 && 
                 this.checaEmail()){
             dados.setEmail(LOCALNovoEmail);
@@ -184,7 +185,7 @@ public class CentralController implements Initializable {
     
     private boolean checaSenha(){
         return this.pswfTelaConfirmarSenhaSenha.getText().length() >=7 && 
-                this.controle.getUsuario().getDadosPessoais().getSenha().equals(this.pswfTelaConfirmarSenhaSenha.getText()) &&
+                this.controle.getUsuario().getDados().getSenha().equals(this.pswfTelaConfirmarSenhaSenha.getText()) &&
                 this.pswfTelaConfirmarSenhaSenha.getText().equals(this.pswfTelaConfirmarSenhaConfirma.getText());
     }
     
@@ -270,8 +271,8 @@ public class CentralController implements Initializable {
             d = t.getInicioDasObras();
             this.lblTrabalhoInicio.setText(this.data(d));
             this.lblTrabalhoEspecialidadeFuncionario.setText(t.getEmpregado().getEspecialidade());
-            this.lblTrabalhoNomeFuncionario.setText(t.getEmpregado().getDadosPessoais().getLogin());
-            this.lblTrabalhoNomeCliente.setText(t.getEmpregador().getDadosPessoais().getLogin());
+            this.lblTrabalhoNomeFuncionario.setText(t.getEmpregado().getDados().getLogin());
+            this.lblTrabalhoNomeCliente.setText(t.getEmpregador().getDados().getLogin());
             this.txtaTrabalhoDescricao.setText(t.getDescricao());
             if(t.isAtivo())
                 this.lblTrabalhoSituacao.setText("em operação");
@@ -375,8 +376,11 @@ public class CentralController implements Initializable {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private void carregaCB(){
-          ObservableList<String> listaEspecialidades= FXCollections.observableArrayList(this.controle.getTodasEspecialidades());
-          cbTealaNovoTrabalhoEpecialidade.setItems(listaEspecialidades);
+      if(this.controle.getTodasEspecialidades()!=null){
+            ObservableList<String> listaEspecialidades= FXCollections.observableArrayList(this.controle.getTodasEspecialidades());
+            //cbTealaNovoTrabalhoEpecialidade.getSelectionModel().getSelectedItem();
+            //System.out.println(this.txtaTrabalhoNovo.getText());
+      }
     }
     private void carregaConta(){
         ObservableList<Conta> conta = FXCollections.observableArrayList(this.controle.getRepositorioContas());
@@ -384,7 +388,7 @@ public class CentralController implements Initializable {
     }
     private void load(){
         this.carregaCB();
-        this.carregaConta();
+        //this.carregaConta();
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
